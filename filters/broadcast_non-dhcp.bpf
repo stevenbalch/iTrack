@@ -1,0 +1,1 @@
+ip and ip[19] = 0xff and not (src port 67 and dst port 68)

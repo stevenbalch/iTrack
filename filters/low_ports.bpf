@@ -1,0 +1,1 @@
+(tcp and tcp[2:2] < 20) or (udp and udp[2:2] < 20)

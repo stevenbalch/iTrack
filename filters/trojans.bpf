@@ -1,0 +1,56 @@
+dst port 0 or
+dst port 1 or
+dst port 7 or
+dst port 11 or
+dst port 15 or
+dst port 79 or
+tcp and dst port 98 or
+udp and dst port 520 or
+tcp and dst port 666 or
+tcp and dst port 1001 or
+tcp and dst port 1010 or
+tcp and dst port 1011 or
+tcp and dst port 1012 or
+tcp and dst port 1015 or
+tcp and dst port 1016 or
+tcp and dst port 1243 or
+tcp and dst port 1999 or
+tcp and dst port 2140 or
+tcp and dst port 3150 or
+tcp and dst port 6711 or
+tcp and dst port 6723 or
+tcp and dst port 6776 or
+tcp and dst port 6838 or
+tcp and dst port 7323 or
+tcp and dst port 7983 or
+tcp and dst port 8787 or
+tcp and dst port 9325 or
+tcp and dst port 10498 or
+tcp and dst port 12345 or
+tcp and dst port 12346 or
+tcp and dst port 12361 or
+tcp and dst port 12362 or
+tcp and dst port 12754 or
+tcp and dst port 15104 or
+tcp and dst port 16660 or
+udp and dst port 18753 or
+tcp and dst port 20034 or
+dst port 20432 or
+dst port 20433 or
+dst port 23476 or
+tcp and dst port 23477 or
+tcp and dst port 27374 or
+udp and dst port 27444 or
+tcp and dst port 27665 or
+udp and dst port 31335 or
+udp and dst port 31337 or
+udp and dst port 31338 or
+tcp and dst port 31785 or
+tcp and dst port 31787 or
+tcp and dst port 31788 or
+udp and dst port 31789 or
+udp and dst port 31791 or
+tcp and dst port 31792 or
+tcp and dst port 44444 or
+tcp and dst port 54320 or
+udp and dst port 54321

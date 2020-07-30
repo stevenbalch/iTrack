@@ -1,0 +1,1 @@
+ip and ( tcp dst port 512 or tcp dst port 513 or tcp dst port 514 )

@@ -1,0 +1,6 @@
+tcp and (tcp[13] & 0xf != 0) 
+    and (tcp[13] & 0xf != 1) 
+    and (tcp[13] & 0xf != 2) 
+    and (tcp[13] & 0xf != 4) 
+    and (tcp[13] & 0xf != 8) 
+    and (tcp[13] & 0xf != 9) 

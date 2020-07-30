@@ -1,0 +1,1 @@
+not (tcp or udp or icmp or arp or igmp)
