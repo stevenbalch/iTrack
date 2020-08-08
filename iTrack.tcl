@@ -35,6 +35,7 @@ set date [exec date +%d%b%Y-%T]
 
 set activef active.bin
 set collectf collect.bin
+exec touch collect.bin
 exec rm collect.bin
 exec touch collect.bin
 
