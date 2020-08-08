@@ -9,7 +9,7 @@ github.com
 - tcpdump `apt install tcpdump`
 
 ## Usage:
-*Edit iTrack.conf for customization and also make sure all file permissions are setup correctly.*
+*Edit the iTrack.conf file for customization and also make sure all file permissions are setup correctly.*
 
 *Run the iTrack.tcl script which will display triggered events based on BPF signatures.*
 
