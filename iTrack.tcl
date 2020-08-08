@@ -6,21 +6,6 @@
 # Steven W. Balch Jr.
 #--------------------------------------
 
-set Tnm 1
-
-if [catch {package require Tnm} err] {
-puts {}
-puts { -- It appears you do not have Tnm installed -- }
-puts {}
-puts {  -- iTrack / v1.0 alpha / IDS System Based on tcpdump analysis -- }
-puts {}
-puts {      -- I will NOT be able to send data to syslog -- }
-puts {}
-puts {      -- I will be sending the date to console instead -- }
-puts {}
-set Tnm 0
-                                     }
-
 set conffile [lindex $argv 0]
 
 #--------------------------------------
@@ -34,11 +19,7 @@ puts {  -- iTrack / v1.0 alpha / IDS System Based on tcpdump analysis -- }
 puts {}
 puts {      -- This is how you use this utility -- }
 puts {}
-puts {      -- ./itrack.tcl configuration-file -- }
-puts {}
-puts {      -- for example -- }
-puts {}
-puts {      -- ./itrack.tcl itrack.conf > /dev/null & -- }
+puts {      -- ./iTrack.tcl iTrack.conf -- }
 puts {}
 exit
                     }
@@ -52,11 +33,10 @@ puts ""
 # set some basic variables
 set date [exec date +%d%b%Y-%T]
 
-set activef .active.bin
-set collectf .collect.bin
-exec touch .collect.bin
-exec rm .collect.bin
-exec touch .collect.bin
+set activef active.bin
+set collectf collect.bin
+exec rm collect.bin
+exec touch collect.bin
 
 #--------------------------------------
 
@@ -73,11 +53,6 @@ if {[regexp {interface:} $entry] ==1} {
 set spline_1 [split $entry {:}]
 set interface [lindex $spline_1 1]
                                       }
-
-if {[regexp {output:} $entry] ==1} {
-set spline_1 [split $entry {:}]
-set output [lindex $spline_1 1]
-                                   }
 
 if {[regexp {include:} $entry] ==1} {
 set spline_1 [split $entry {:}]
@@ -103,8 +78,8 @@ close $confinfo
 #--------------------------------------
 proc background {} {
 global conffile activef collectf interface
-exec tcpdump -i $interface -s 1514 -w $activef &
-after 25000
+exec /bin/bash -c "tcpdump -i $interface -s 1514 -w $activef > /dev/null &"
+after 5000
 catch {exec ps -e | grep tcpdump} result
 if {[regexp "tcpdump" $result] == 1 } {
 set result2 [string trim $result]
@@ -121,58 +96,51 @@ background
 
 #--------------------------------------
 proc parsebin {} {
-global include output collectf Tnm
+global include output collectf
 
 set date [exec date +%d%b%Y]
+set trash "reading from file collect.bin"
 
 set includerw [array get include]
 
 foreach {item val} $includerw {
 set filteritem $item
-catch {exec tcpdump -vv -s 1514 -n -r $collectf -F filters/$item} result01
+catch {exec /bin/bash -c "tcpdump -vvv -X -s 1514 -n -r $collectf -F filters/$item"} result01
 
+#puts [string length $result01]
+#puts $result01
+
+if {[string length $result01] == 58} {
+set $result01 {}
+} else {
 
 if {[string length $result01] == 0} {
 } else {
 
+#puts $result01
+puts ""
+puts "Detection(s) of '$item':"
+puts ""
+
 set result02 [split $result01 \n]
 foreach line $result02 {
 
-
-if {$Tnm == 0} {
-if {[regexp syslog $output] == 1 } {
-exec echo "Packet match with $filteritem ~ $line" >> $date.log
-puts "Packet match with $filteritem ~ $line"
-                                   }
-               }
-
-if {[regexp console $output] == 1 } {
-puts "Packet match with $filteritem ~ $line"
-exec echo "Packet match with $filteritem ~ $line" >> $date.log
-                                    }
-
-if {$Tnm == 1} {
-if {[regexp syslog $output] == 1 } {
-syslog info "Packet match with $filteritem ~ $line"
-exec echo "Packet match with $filteritem ~ $line" >> $date.log
-               }
-
+if {[regexp $trash $line] == 1} {
 } else {
-puts "Packet match with $filteritem ~ $line"
-exec echo "Packet match with $filteritem ~ $line" >> $date.log
-       }
-                        }
+puts $line
 
        }
-#--------------------------------------
-                                } 
-                   }
+
+                       }
+       }
+       }
+                              }
+               }
 #--------------------------------------
 
 #--------------------------------------
 # Run procdures
 getconf
-parsebin
 background
 #--------------------------------------
 
