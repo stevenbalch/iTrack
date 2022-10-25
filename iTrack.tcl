@@ -79,7 +79,7 @@ close $confinfo
 #--------------------------------------
 proc background {} {
 global conffile activef collectf interface
-exec /bin/bash -c "tcpdump -i $interface -s 1514 -w $activef > /dev/null &"
+exec /bin/bash -c "tcpdump -i $interface -s 1514 -U -w $activef > /dev/null &"
 after 5000
 catch {exec ps -e | grep tcpdump} result
 if {[regexp "tcpdump" $result] == 1 } {
@@ -106,7 +106,7 @@ set includerw [array get include]
 
 foreach {item val} $includerw {
 set filteritem $item
-catch {exec /bin/bash -c "tcpdump -vvv -X -s 1514 -n -r $collectf -F filters/$item"} result01
+catch {exec /bin/bash -c "tcpdump -U -vvv -X -s 1514 -n -r $collectf -F filters/$item"} result01
 
 #puts [string length $result01]
 #puts $result01
